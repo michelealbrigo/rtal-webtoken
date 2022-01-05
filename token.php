@@ -20,7 +20,7 @@ $private_key_file='/etc/rtal-webtoken/key-private.pem';
 $public_key_file='/etc/rtal-webtoken/key-public.pem';
 $system_seed='AAAAAAAAAA';
 $ldaps=1;
-$ldap_server_port='636'
+$ldap_server_port='636';
 
 /**
   * Parse configuration file
