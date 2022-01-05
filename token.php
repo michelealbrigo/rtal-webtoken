@@ -10,9 +10,9 @@
   * Defaults setting
  */
 $yaml_cfg_docs=1;
-$yaml_cfg_file='../token-cfg.yaml';
-$private_key_file='../key-private.pem';
-$public_key_file='../key-public.pem';
+$yaml_cfg_file='/etc/rtal-webtoken/token-cfg.yaml';
+$private_key_file='/etc/rtal-webtoken/key-private.pem';
+$public_key_file='/etc/rtal-webtoken/key-public.pem';
 $system_seed='AAAAAAAAAA';
 $ldaps=1;
 $ldap_server_port='636'
