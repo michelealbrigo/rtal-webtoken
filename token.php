@@ -178,7 +178,7 @@ echo "
     è il percorso, relativo alla webroot, della directory che contiene il file IWT.min.js e i file *.chunk.js -->
   <script>__PUBLIC_PATH__ = './iwt/'</script>
 
-  <script src=\"./iwt/IWT.min.js' | path }}\"></script>
+  <script src=\"./iwt/IWT.min.js\"></script>
 
 </body>
 </html>
