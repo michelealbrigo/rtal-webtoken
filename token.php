@@ -147,14 +147,14 @@ echo "
   <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 
-  <!-- <link rel=\"preload\" href=\"{{ './iwt/IWT.min.js' }}\" as=\"script\"> -->
+  <!-- <link rel=\"preload\" href=\"./iwt/IWT.min.js\" as=\"script\"> -->
 
   <!-- include HTML5shim per Explorer 8 -->
-  <script src=\"{{ './iwt/vendor/modernizr.js' }}\"></script>
+  <script src=\"./iwt/vendor/modernizr.js\"></script>
 
-  <link media=\"all\" rel=\"stylesheet\" href=\"{{ './iwt/build.css' }}\">
+  <link media=\"all\" rel=\"stylesheet\" href=\"./iwt/build.css\">
 
-  <script src=\"{{ './iwt/vendor/jquery.min.js' }}\"></script>
+  <script src=\"./iwt/vendor/jquery.min.js\"></script>
 
   <title>Preview Layout</title>
 </head>
@@ -164,21 +164,21 @@ echo "
   {{ yield|safe }}
 
   <!--[if IE 8]>
-  <script src=\"{{ './iwt/vendor/respond.min.js' }}\"></script>
-  <script src=\"{{ './iwt/vendor/rem.min.js' }}\"></script>
-  <script src=\"{{ './iwt/vendor/selectivizr.js' }}\"></script>
-  <script src=\"{{ './iwt/vendor/slice.js' }}\"></script>
+  <script src=\"./iwt/vendor/respond.min.js\"></script>
+  <script src=\"./iwt/vendor/rem.min.js\"></script>
+  <script src=\"./iwt/vendor/selectivizr.js\"></script>
+  <script src=\"./iwt/vendor/slice.js\"></script>
   <![endif]-->
 
   <!--[if lte IE 9]>
-  <script src=\"{{ './iwt/vendor/polyfill.min.js' }}\"></script>
+  <script src=\"./iwt/vendor/polyfill.min.js\"></script>
   <![endif]-->
 
   <!-- sostituire questo percorso con quello degli assets javascript nel proprio sito web:
     è il percorso, relativo alla webroot, della directory che contiene il file IWT.min.js e i file *.chunk.js -->
-  <script>__PUBLIC_PATH__ = '{{ './iwt/' }}'</script>
+  <script>__PUBLIC_PATH__ = './iwt/'</script>
 
-  <script src=\"{{ './iwt/IWT.min.js' | path }}\"></script>
+  <script src=\"./iwt/IWT.min.js' | path }}\"></script>
 
 </body>
 </html>
