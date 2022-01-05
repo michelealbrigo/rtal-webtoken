@@ -95,7 +95,11 @@ if (($cfg_array['system_seed'] != '') &&
 //    check user and password validity and size
 //    if ldap bind succeeds
 $ldapconn=ldap_connect('ldaps://server.domain.tld',636);
-$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=tld', $ldappassword);
+<<<<<<< HEAD
+$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
+=======
+$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
+>>>>>>> b833a4f1f13a0443a0e431ec5c99483c7572eee7
 //      create token string
 //      if opcode is empty pad string with zeroes
 //      encrypt token string with private_key
