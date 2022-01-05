@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# This file and the key-private.pem file must be placed outside the web document root
+ldap_server: 'server.domain.tld' # ip or fqdn of an LDAP server
+ldap_serverport: '636' # a valid port number for the ldap_server to be contacted on (integer)
+ldaps: 1 # boolean, whether to use SSL or not (0|1)
+ldap_baseDN: '' # LDAP base DN for our bind attempt
+private_key: '../key-private.pem' # the private key used to generate tokens
+public_key: '../key-public.pem' # the public key to display on a token page
+system_seed: 'MYTOKENSRV' # a string identifying this server, max 10 char
