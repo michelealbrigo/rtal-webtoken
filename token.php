@@ -176,7 +176,7 @@ echo "
 
   <!-- sostituire questo percorso con quello degli assets javascript nel proprio sito web:
     è il percorso, relativo alla webroot, della directory che contiene il file IWT.min.js e i file *.chunk.js -->
-  <script>__PUBLIC_PATH__ = '{{ '/zabbix/rtal-webtoken/iwt/' | path | replace(\".html\", \"/\") }}'</script>
+  <script>__PUBLIC_PATH__ = '{{ '/rtal-webtoken/iwt/build/' | path | replace(\".html\", \"/\") }}'</script>
 
   <script src=\"{{ '/build/IWT.min.js' | path }}\"></script>
 
