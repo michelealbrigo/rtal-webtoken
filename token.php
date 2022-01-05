@@ -147,14 +147,14 @@ echo "
   <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 
-  <!-- <link rel=\"preload\" href=\"{{ '/build/IWT.min.js' | path }}\" as=\"script\"> -->
+  <!-- <link rel=\"preload\" href=\"{{ './build/IWT.min.js' | path }}\" as=\"script\"> -->
 
   <!-- include HTML5shim per Explorer 8 -->
-  <script src=\"{{ '/build/vendor/modernizr.js' | path }}\"></script>
+  <script src=\"{{ './build/vendor/modernizr.js' | path }}\"></script>
 
-  <link media=\"all\" rel=\"stylesheet\" href=\"{{ '/build/build.css' | path }}\">
+  <link media=\"all\" rel=\"stylesheet\" href=\"{{ './build/build.css' | path }}\">
 
-  <script src=\"{{ '/build/vendor/jquery.min.js' | path }}\"></script>
+  <script src=\"{{ './build/vendor/jquery.min.js' | path }}\"></script>
 
   <title>Preview Layout</title>
 </head>
@@ -164,22 +164,22 @@ echo "
   {{ yield|safe }}
 
   <!--[if IE 8]>
-  <script src=\"{{ '/build/vendor/respond.min.js' | path }}\"></script>
-  <script src=\"{{ '/build/vendor/rem.min.js' | path }}\"></script>
-  <script src=\"{{ '/build/vendor/selectivizr.js' | path }}\"></script>
-  <script src=\"{{ '/build/vendor/slice.js' | path }}\"></script>
+  <script src=\"{{ './build/vendor/respond.min.js' | path }}\"></script>
+  <script src=\"{{ './build/vendor/rem.min.js' | path }}\"></script>
+  <script src=\"{{ './build/vendor/selectivizr.js' | path }}\"></script>
+  <script src=\"{{ './build/vendor/slice.js' | path }}\"></script>
   <![endif]-->
 
   <!--[if lte IE 9]>
-  <script src=\"{{ '/build/vendor/polyfill.min.js' | path }}\"></script>
+  <script src=\"{{ './build/vendor/polyfill.min.js' | path }}\"></script>
   <![endif]-->
 
   <!-- sostituire questo percorso con quello degli assets javascript nel proprio sito web:
     è il percorso, relativo alla webroot, della directory che contiene il file IWT.min.js e i file *.chunk.js -->
   {# path filter adds '.html' to the path, hence the need for replace #}
-  <script>__PUBLIC_PATH__ = '{{ '/build/' | path | replace(\".html\", \"/\") }}'</script>
+  <script>__PUBLIC_PATH__ = '{{ './build/' | path | replace(\".html\", \"/\") }}'</script>
 
-  <script src=\"{{ '/build/IWT.min.js' | path }}\"></script>
+  <script src=\"{{ './build/IWT.min.js' | path }}\"></script>
 
 </body>
 </html>
