@@ -2,6 +2,7 @@
 /**
   * PHP authenticated token generator
   * Michele Albrigo - 2021
+  * v0.2 - config file and request parameters parsing
   * v0.1 - module import
   * v0.0 - initial structure
  */
@@ -54,8 +55,6 @@ echo "
 
 echo "
 <body class=\"t-Pac\">
-
-  {{ yield|safe }}
 
   <!--[if IE 8]>
   <script src=\"./iwt/vendor/respond.min.js\"></script>
@@ -115,7 +114,7 @@ if (($cfg_array['system_seed'] != '') &&
 /**
   * Read request parameters
   * service: page function selection (default = synopsis)
-  *     possible values: synopsis, keypair_generation, token_generation
+  *     possible values: synopsis, keypair_generation, token_generation, token_decryption
   * opcode: an operation code provided by the user, for inclusion in the encrypted token
   * username: the user's name on the LDAP server
   * password: the user's password on the LDAP server
@@ -127,24 +126,17 @@ if (isset(TODO1)) {
   if ($service == 'token_generation') {
     if (isset(TODO2)) {
       $opcode = htmlspecialchars(TODO2);
-    } else {
-      echo "Opcode not set or invalid";
     }
     if ((isset(TODO3)) && (isset(TODO4))) {
       $username = htmlspecialchars(TODO3);
       $password = htmlspecialchars(TODO4);
-    } else {
-      echo "Username or password not provided";
-    }  
-  } elseif (($service != 'keypair_generation') && ($service != 'synopsis')) {
+    } 
+  } elseif (($service != 'keypair_generation') && ($service != 'synopsis') && ($service != 'token_decryption')) {
     echo "Unrecognized service";
   }
 } else {
   $service = 'synopsis'
 }
-
-
-// check if service is valid
 
 /**
   * Service: synopsis
