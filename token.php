@@ -124,6 +124,7 @@ if (($cfg_array['system_seed'] != '') &&
 if (isset(TODO1)) {
   $service = htmlspecialchars(TODO1);
   if ($service == 'token_generation') {
+    // Some additional controls for token_generation service
     if (isset(TODO2)) {
       $opcode = htmlspecialchars(TODO2);
     }
@@ -131,11 +132,16 @@ if (isset(TODO1)) {
       $username = htmlspecialchars(TODO3);
       $password = htmlspecialchars(TODO4);
     } 
-  } elseif (($service != 'keypair_generation') && ($service != 'synopsis') && ($service != 'token_decryption')) {
+  } elseif ($service == 'token_decryption') {
+    // Some additional controls for token_decryption service
+    if (isset(TODO5)) {
+      $token = htmlspecialchars(TODO5);
+    }
+  } elseif (($service != 'keypair_generation') && ($service != 'synopsis')) {
     echo "Unrecognized service";
   }
 } else {
-  $service = 'synopsis'
+  $service = 'synopsis';
 }
 
 /**
@@ -145,7 +151,9 @@ if (isset(TODO1)) {
   * Description: general help about the page
  */
 
-// print synopsis
+if ($service == 'synopsis') {
+  // print synopsis
+}
 
 /**
   * Service: keypair_generation
@@ -155,8 +163,10 @@ if (isset(TODO1)) {
   * Output: a valid key pair
  */
 
-// generate key pair
-// print key pair
+if ($service == 'keypair_generation') {
+  // generate key pair
+  // print key pair
+}
 
 /**
   * Service: token_generation
@@ -166,32 +176,35 @@ if (isset(TODO1)) {
   * Output: a valid token and a public key to validate it
  */
 
-// if ldap_server, ldap_serverport, ldaps, ldap_baseDN do not exist or aren't well formed, throw an error
+if ($service == 'token_generation') {
 
-if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
-    (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
-    (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
-    (filter_var($cfg_array['ldap_baseDN'] != ''))) {
+  // if ldap_server, ldap_serverport, ldaps, ldap_baseDN do not exist or aren't well formed, throw an error
+  if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
+      (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
+      (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
+      (filter_var($cfg_array['ldap_baseDN'] != ''))) {
 
-    } else {
-      echo "Authentication server configuration invalid";
-    }
+      } else {
+        echo "Authentication server configuration invalid";
+      }
 
-// if user and password are empty, print login page
-// else if user and password are both present
-//    check user and password validity and size
-//    if ldap bind succeeds
-//$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
-//$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
-//      create token string
-//      if opcode is empty pad string with zeroes
-//      encrypt token string with private_key
-//      display encrypted token
-//      display public_key
-//    if ldap bind fails
-//      display error
-// else
-//      display error
+  // if user and password are empty, print login page
+  // else if user and password are both present
+  //    check user and password validity and size
+  //    if ldap bind succeeds
+  //$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
+  //$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
+  //      create token string
+  //      if opcode is empty pad string with zeroes
+  //      encrypt token string with private_key
+  //      display encrypted token
+  //      display public_key
+  //    if ldap bind fails
+  //      display error
+  // else
+  //      display error
+
+}
 
 /**
   * Service: token_decryption
@@ -201,16 +214,19 @@ if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
   * Output: username, opcode, system_seed, token creation timestamp, human readable token creation timestamp, token age
  */
 
-// if token is empty, print token input box
-// else if token length is ok and characters are allowed
-//    decrypt token with public key
-//    print username
-//    print opcode
-//    print system_seed
-//    print token creation timestamp
-//    print human readable token creation timestamp
-//    print token age
-//    print cleartext token
+if ($service == 'token_decryption') {
+  // if token is empty, print token input box
+  // else if token length is ok and characters are allowed
+  //    decrypt token with public key
+  //    print username
+  //    print opcode
+  //    print system_seed
+  //    print token creation timestamp
+  //    print human readable token creation timestamp
+  //    print token age
+  //    print cleartext token
+}
+
 
 // -------------
 
