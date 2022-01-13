@@ -23,6 +23,58 @@ $ldaps=1;
 $ldap_server_port='636';
 
 /**
+  * Page header
+ */
+
+echo "
+<!DOCTYPE html>
+<!--[if IE 8]><html class=\"no-js ie89 ie8\" lang=\"it\"><![endif]-->
+<!--[if IE 9]><html class=\"no-js ie89 ie9\" lang=\"it\"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class=\"no-js\" lang=\"it\">
+<!--<![endif]-->
+
+<head>
+  <meta charset=\"utf-8\">
+  <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+
+  <!-- <link rel=\"preload\" href=\"./iwt/IWT.min.js\" as=\"script\"> -->
+
+  <!-- include HTML5shim per Explorer 8 -->
+  <script src=\"./iwt/vendor/modernizr.js\"></script>
+
+  <link media=\"all\" rel=\"stylesheet\" href=\"./iwt/build.css\">
+
+  <script src=\"./iwt/vendor/jquery.min.js\"></script>
+
+  <title>Preview Layout</title>
+</head>
+";
+
+echo "
+<body class=\"t-Pac\">
+
+  {{ yield|safe }}
+
+  <!--[if IE 8]>
+  <script src=\"./iwt/vendor/respond.min.js\"></script>
+  <script src=\"./iwt/vendor/rem.min.js\"></script>
+  <script src=\"./iwt/vendor/selectivizr.js\"></script>
+  <script src=\"./iwt/vendor/slice.js\"></script>
+  <![endif]-->
+
+  <!--[if lte IE 9]>
+  <script src=\"./iwt/vendor/polyfill.min.js\"></script>
+  <![endif]-->
+
+  
+  <script>__PUBLIC_PATH__ = './iwt/'</script>
+
+  <script src=\"./iwt/IWT.min.js\"></script>
+";
+
+/**
   * Parse configuration file
   * ldap_server: ip or fqdn of an LDAP server
   * ldap_serverport: a valid port number for the ldap_server to be contacted on
@@ -34,21 +86,31 @@ $ldap_server_port='636';
  */
 
 // open config file and read it
-$cfg_array=yaml_parse_file($yaml_cfg_file,0,$yaml_cfg_docs);
+try {
+  $cfg_array=yaml_parse_file($yaml_cfg_file,0,$yaml_cfg_docs);
+} catch (Exception $e) {
+  echo "Configuration file missing or not in YAML format, using defaults";
+}
 
 // if private_key_file and public_key_file both exist, overwrite defaults
 if (($cfg_array['private_key'] != '') && ($cfg_array['public_key'] != '')) {
   $private_key_file = $cfg_array['private_key'];
   $public_key_file = $cfg_array['public_key'];
+} else {
+  echo "Key-pair missing, using defaults";
 }
 
 // if system_seed exist and length is 10, overwrite defaults
 if (($cfg_array['system_seed'] != '') && 
     (strlen($cfg_array['system_seed']==10))) {
   $system_seed = $cfg_array['system_seed'];
+} else {
+  echo "System seed missing or wrong length, using default (AAAAAAAAAA)";
 }
 
-// if ldap_server, ldap_serverport, ldaps, ldap_baseDN do not exist or aren't well formed, throw an exception
+// -------------
+// WORK HERE
+// -------------
 
 /**
   * Read request parameters
@@ -59,13 +121,30 @@ if (($cfg_array['system_seed'] != '') &&
   * password: the user's password on the LDAP server
  */
 
-// read http request parameters
+// Check if request parameters are valid and assign them to work variables
+if (isset(TODO1)) {
+  $service = htmlspecialchars(TODO1);
+  if ($service == 'token_generation') {
+    if (isset(TODO2)) {
+      $opcode = htmlspecialchars(TODO2);
+    } else {
+      echo "Opcode not set or invalid";
+    }
+    if ((isset(TODO3)) && (isset(TODO4))) {
+      $username = htmlspecialchars(TODO3);
+      $password = htmlspecialchars(TODO4);
+    } else {
+      echo "Username or password not provided";
+    }  
+  } elseif (($service != 'keypair_generation') && ($service != 'synopsis')) {
+    echo "Unrecognized service";
+  }
+} else {
+  $service = 'synopsis'
+}
+
+
 // check if service is valid
-
-/**
-  * Page header
- */
-
 
 /**
   * Service: synopsis
@@ -94,6 +173,17 @@ if (($cfg_array['system_seed'] != '') &&
   * Description: authenticated token generation, including opcode and username, encrypted with the system's private key
   * Output: a valid token and a public key to validate it
  */
+
+// if ldap_server, ldap_serverport, ldaps, ldap_baseDN do not exist or aren't well formed, throw an error
+
+if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
+    (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
+    (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
+    (filter_var($cfg_array['ldap_baseDN'] != ''))) {
+
+    } else {
+      echo "Authentication server configuration invalid";
+    }
 
 // if user and password are empty, print login page
 // else if user and password are both present
@@ -130,58 +220,16 @@ if (($cfg_array['system_seed'] != '') &&
 //    print token age
 //    print cleartext token
 
+// -------------
+
+
 /**
   * Page footer
  */
 
 echo "
-<!DOCTYPE html>
-<!--[if IE 8]><html class=\"no-js ie89 ie8\" lang=\"it\"><![endif]-->
-<!--[if IE 9]><html class=\"no-js ie89 ie9\" lang=\"it\"><![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html class=\"no-js\" lang=\"it\">
-<!--<![endif]-->
-
-<head>
-  <meta charset=\"utf-8\">
-  <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">
-  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-
-  <!-- <link rel=\"preload\" href=\"./iwt/IWT.min.js\" as=\"script\"> -->
-
-  <!-- include HTML5shim per Explorer 8 -->
-  <script src=\"./iwt/vendor/modernizr.js\"></script>
-
-  <link media=\"all\" rel=\"stylesheet\" href=\"./iwt/build.css\">
-
-  <script src=\"./iwt/vendor/jquery.min.js\"></script>
-
-  <title>Preview Layout</title>
-</head>
-
-<body class=\"t-Pac\">
-
-  {{ yield|safe }}
-
-  <!--[if IE 8]>
-  <script src=\"./iwt/vendor/respond.min.js\"></script>
-  <script src=\"./iwt/vendor/rem.min.js\"></script>
-  <script src=\"./iwt/vendor/selectivizr.js\"></script>
-  <script src=\"./iwt/vendor/slice.js\"></script>
-  <![endif]-->
-
-  <!--[if lte IE 9]>
-  <script src=\"./iwt/vendor/polyfill.min.js\"></script>
-  <![endif]-->
-
-  <!-- sostituire questo percorso con quello degli assets javascript nel proprio sito web:
-    è il percorso, relativo alla webroot, della directory che contiene il file IWT.min.js e i file *.chunk.js -->
-  <script>__PUBLIC_PATH__ = './iwt/'</script>
-
-  <script src=\"./iwt/IWT.min.js\"></script>
-
 </body>
 </html>
-"
+";
 
 ?>
