@@ -121,21 +121,21 @@ if (($cfg_array['system_seed'] != '') &&
  */
 
 // Check if request parameters are valid and assign them to work variables
-if (isset(TODO1)) {
-  $service = htmlspecialchars(TODO1);
+if (isset($_REQUEST['service'])) {
+  $service = htmlspecialchars($_REQUEST['service']);
   if ($service == 'token_generation') {
     // Some additional controls for token_generation service
-    if (isset(TODO2)) {
-      $opcode = htmlspecialchars(TODO2);
+    if (isset($_REQUEST['opcode'])) {
+      $opcode = htmlspecialchars($_REQUEST['opcode']);
     }
-    if ((isset(TODO3)) && (isset(TODO4))) {
-      $username = htmlspecialchars(TODO3);
-      $password = htmlspecialchars(TODO4);
+    if ((isset($_REQUEST['username'])) && (isset($_REQUEST['password']))) {
+      $username = htmlspecialchars($_REQUEST['username']);
+      $password = htmlspecialchars($_REQUEST['password']);
     } 
   } elseif ($service == 'token_decryption') {
     // Some additional controls for token_decryption service
-    if (isset(TODO5)) {
-      $token = htmlspecialchars(TODO5);
+    if (isset($_REQUEST['token'])) {
+      $token = htmlspecialchars($_REQUEST['token']);
     }
   } elseif (($service != 'keypair_generation') && ($service != 'synopsis')) {
     echo "Unrecognized service";
@@ -153,6 +153,15 @@ if (isset(TODO1)) {
 
 if ($service == 'synopsis') {
   // print synopsis
+  echo "
+  Valid services are:
+  <ul>
+  <li><b>synopsis</b> = print this help (default service)</li>
+  <li><b>keypair_generation</b> = generates a valid keypair for token operations, no authentication required</li>>
+  <li><b>token_generation</b> = generates a token, authentication required</li>
+  <li><b>token_decryption</b> = decrypts a token with server's current public key, no authentication required, foreign key decryption not supported</li>
+  </ul>
+  ";
 }
 
 /**
@@ -165,6 +174,15 @@ if ($service == 'synopsis') {
 
 if ($service == 'keypair_generation') {
   // generate key pair
+  $fullkey = openssl_pkey_new(array("private_key_bits" => 2048));
+  $pubkey = openssl_pkey_get_details($fullkey)['key'];
+  openssl_pkey_export($fullkey, $privkey);
+  echo "
+  <table>
+  <tr>
+  <td>".$pubkey."</td><td>".$privkey."</td>
+  </tr>
+  </table>";
   // print key pair
 }
 
