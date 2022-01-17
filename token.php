@@ -217,10 +217,11 @@ if ($service == 'token_generation') {
     $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
     $original = $system_seed.$opcode.":".$username."timestamp";
     openssl_private_encrypt($original, $bintoken, $privkey);
-    openssl_sign($original, $binsigned, $privkey);
+    $enctoken = base64_encode($bintoken);
+    $dectoken = base64_decode($enctoken);
+    openssl_public_decrypt($dectoken, $final, $pubkey);
     echo "<table>
-    <tr><td><pre>".openssl_pkey_get_details($pubkey)['key']."</pre></td><td>TOKEN:".base64_encode($bintoken)."</td><td>Original:".$original."</td></tr>
-    <tr><td></td><td>TOKEN:".$system_seed.":".$opcode.":".$username.":"."timestamp:".base64_encode($binsigned)."</td><td></td></tr>
+    <tr><td><pre>".openssl_pkey_get_details($pubkey)['key']."</pre></td><td>TOKEN:".$enctoken."</td><td>Original:".base64_decode($final)."</td></tr>
     </table>
     ";
 
