@@ -104,7 +104,7 @@ if (($cfg_array['system_seed'] != '') &&
     (strlen($cfg_array['system_seed']==10))) {
   $system_seed = $cfg_array['system_seed'];
 } else {
-  echo "<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>";
+  echo "<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>".$cfg_array['system_seed'];
 }
 
 // -------------
