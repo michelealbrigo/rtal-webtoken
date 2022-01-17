@@ -101,7 +101,7 @@ if (($cfg_array['private_key'] != '') && ($cfg_array['public_key'] != '')) {
 
 // if system_seed exist and length is 10, overwrite defaults
 if (($cfg_array['system_seed'] != '') && 
-    (strlen($cfg_array['system_seed']==10))) {
+    (strlen($cfg_array['system_seed'])==10)) {
   $system_seed = $cfg_array['system_seed'];
 } else {
   echo "<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>".$cfg_array['system_seed'];
