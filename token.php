@@ -213,6 +213,8 @@ if ($service == 'token_generation') {
         echo "<b>Warning:</b> Authentication server configuration invalid<br>";
       }
     */
+    echo $private_key_file."<br>";
+    echo $public_key_file."<br>";
     $privkey = openssl_pkey_get_private($private_key_file);
     $pubkey = openssl_pkey_get_public($public_key_file);
     echo "<table>
