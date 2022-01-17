@@ -158,10 +158,10 @@ if ($service == 'synopsis') {
   echo "
   Valid services are:
   <ul>
-  <li><b>synopsis</b> = print this help (default service)</li>
-  <li><b>keypair_generation</b> = generates a valid keypair for token operations, no authentication required</li>
-  <li><b>token_generation</b> = generates a token, authentication required</li>
-  <li><b>token_decryption</b> = decrypts a token with server's current public key, no authentication required, foreign key decryption not supported</li>
+  <li><a href='".$base_url."?service=synopsis'><b>synopsis</b></a> = print this help (default service)</li>
+  <li><a href='".$base_url."?service=keypair_generation'><b>keypair_generation</b></a> = generates a valid keypair for token operations, no authentication required</li>
+  <li><a href='".$base_url."?service=token_generation'><b>token_generation</b></a> = generates a token, authentication required</li>
+  <li><a href='".$base_url."?service=token_decryption'><b>token_decryption</b></a> = decrypts a token with server's current public key, no authentication required, foreign key decryption not supported</li>
   </ul>
   ";
 }
