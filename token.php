@@ -178,7 +178,7 @@ if ($service == 'keypair_generation') {
   echo "
   <table>
   <tr>
-  <td>".$pubkey."</td><td>".$privkey."</td>
+  <td><code>".$pubkey."</code></td><td><code>".$privkey."</code></td>
   </tr>
   </table>";
   // print key pair
