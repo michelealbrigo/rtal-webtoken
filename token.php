@@ -107,10 +107,6 @@ if (($cfg_array['system_seed'] != '') &&
   echo "<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>";
 }
 
-// -------------
-// WORK HERE
-// -------------
-
 /**
   * Read request parameters
   * service: page function selection (default = synopsis)
@@ -198,6 +194,38 @@ if ($service == 'keypair_generation') {
 
 if ($service == 'token_generation') {
 
+  // -------- CAUTION --------
+  // temporary dummy values
+  $username = 'username';
+  $password = 'password';
+  $opcode = 'OP202201';
+  // -------- CAUTION --------
+
+  // if we know username, password and opcode, we attempt authentication and generate a token, otherwise we present an authentication form
+  if (( $username != '' ) && ( $password != '' ) && ( $opcode != '' )) {
+    /*
+    if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
+      (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
+      (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
+      (filter_var($cfg_array['ldap_baseDN'] != ''))) {
+
+      } else {
+        echo "<b>Warning:</b> Authentication server configuration invalid<br>";
+      }
+    */
+    $privkey = openssl_pkey_get_private($private_key_file);
+    $pubkey = openssl_pkey_get_public($public_key_file);
+    echo "<table>
+    <tr><td>".$pubkey."</td><td>TOKEN</td></tr>
+    </table>
+    ";
+
+  } else {
+    echo "
+    Authentication form goes here<br>
+    ";
+  }
+
   // if ldap_server, ldap_serverport, ldaps, ldap_baseDN do not exist or aren't well formed, throw an error
   if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
       (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
@@ -246,10 +274,6 @@ if ($service == 'token_decryption') {
   //    print token age
   //    print cleartext token
 }
-
-
-// -------------
-
 
 /**
   * Page footer
