@@ -104,7 +104,7 @@ if (($cfg_array['system_seed'] != '') &&
     (strlen($cfg_array['system_seed'])==10)) {
   $system_seed = $cfg_array['system_seed'];
 } else {
-  echo "<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>".$cfg_array['system_seed'];
+  echo "<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>";
 }
 
 // -------------
@@ -152,6 +152,8 @@ if (isset($_REQUEST['service'])) {
  */
 
 if ($service == 'synopsis') {
+  // we force https since we are in 21st century
+  $base_url = "https://".$_REQUEST['SERVER_NAME'].$_REQUEST['REQUEST_URI'];
   // print synopsis
   echo "
   Valid services are:
