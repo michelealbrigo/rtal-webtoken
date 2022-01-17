@@ -273,7 +273,8 @@ if ( $reqservice == 'token_decryption' ) {
     openssl_public_decrypt(base64_decode($reqtoken), $dectoken, $pubkey);
     echo "
     <table>
-    <tr><td>Encrypted:".$reqtoken."</td><td>Decrypted:".$dectoken."</td></tr>
+    <tr><td>Encrypted:".$reqtoken."</td></tr>
+    <tr><td>Decrypted:".$dectoken."</td></tr>
     </table>
     ";
   } else {
