@@ -215,7 +215,7 @@ if ($service == 'token_generation') {
     */
     $privkey = openssl_pkey_get_private(file_get_contents($private_key_file));
     $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
-    $original = $system_seed.":".$opcode.":".$username.":"."timestamp";
+    $original = $system_seed.$opcode.":".$username."timestamp";
     openssl_private_encrypt($original, $bintoken, $privkey);
     openssl_sign($original, $binsigned, $privkey);
     echo "<table>
