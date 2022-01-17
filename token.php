@@ -14,6 +14,7 @@ error_reporting(E_ALL);
 
 /**
   * Defaults setting
+  * Key Size = 512 to get short tokens
  */
 $yaml_cfg_file='/etc/rtal-webtoken/token-cfg.yaml';
 $yaml_cfg_docs=1;
@@ -156,7 +157,7 @@ if (isset($_REQUEST['service'])) {
  */
 
 if ($reqservice == 'synopsis') {
-  // we force https since we are in 21st century
+  // we only use https since we are in 21st century
   $base_url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
   // print synopsis
   echo "
@@ -180,7 +181,6 @@ if ($reqservice == 'synopsis') {
 
 if ($reqservice == 'keypair_generation') {
   // generate key pair
-  // (key size = 512 to get shorter length tokens)
   $fullkey = openssl_pkey_new(array("private_key_bits" => $private_key_size));
   $pubkey = openssl_pkey_get_details($fullkey)['key'];
   openssl_pkey_export($fullkey, $privkey);
@@ -262,7 +262,22 @@ if ($reqservice == 'token_generation') {
   * Output: username, opcode, system_seed, token creation timestamp, human readable token creation timestamp, token age
  */
 
-if ($reqservice == 'token_decryption') {
+if ( $reqservice == 'token_decryption' ) {
+  // -------- CAUTION --------
+  // temporary dummy value
+  $reqtoken = 'ah9NNTOg7VymLn1K4bkgepy8ocBXgWXsi1pCSywVuZZthvWaBqgDvIWezHZZ62tdPitaoK8J5BvIaRQl/z6ttg==';
+  // -------- CAUTION --------
+
+  if ( $reqtoken != '' ) {
+    openssl_public_decrypt(base64_decode($reqtoken), $dectoken, $pubkey)
+    echo "
+    <table>
+    <tr><td>Encrypted:".$reqtoken."</td><td>Decrypted:".$dectoken."</td></tr>
+    </table>
+    ";
+  } else {
+    // if token is empty, print token input box
+  }
   // if token is empty, print token input box
   // else if token length is ok and characters are allowed
   //    decrypt token with public key
@@ -273,7 +288,7 @@ if ($reqservice == 'token_decryption') {
   //    print human readable token creation timestamp
   //    print token age
   //    print cleartext token
-  //$dectoken = base64_decode($enctoken);
+  //
   //openssl_public_decrypt($dectoken, $final, $pubkey);
 }
 
