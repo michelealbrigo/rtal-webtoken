@@ -87,7 +87,7 @@ echo "
 
 // open config file and read it
 try {
-  $cfg_array=yaml_parse_file($yaml_cfg_file,0,1);
+  $cfg_array=yaml_parse_file($yaml_cfg_file,0,$yaml_cfg_docs);
 } catch (Exception $e) {
   echo "<b>Warning:</b> Configuration file missing or not in YAML format, using defaults<br>";
 }
