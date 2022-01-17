@@ -172,7 +172,7 @@ if ($service == 'synopsis') {
 
 if ($service == 'keypair_generation') {
   // generate key pair
-  $fullkey = openssl_pkey_new(array("private_key_bits" => 2048));
+  $fullkey = openssl_pkey_new(array("private_key_bits" => 512));
   $pubkey = openssl_pkey_get_details($fullkey)['key'];
   openssl_pkey_export($fullkey, $privkey);
   echo "
