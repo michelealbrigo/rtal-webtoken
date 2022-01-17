@@ -269,6 +269,7 @@ if ( $reqservice == 'token_decryption' ) {
   // -------- CAUTION --------
 
   if ( $reqtoken != '' ) {
+    $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
     openssl_public_decrypt(base64_decode($reqtoken), $dectoken, $pubkey);
     echo "
     <table>
