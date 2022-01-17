@@ -16,6 +16,7 @@ error_reporting(E_ALL);
   * Defaults setting
  */
 $yaml_cfg_file='/etc/rtal-webtoken/token-cfg.yaml';
+$yaml_cfg_docs=1;
 $private_key_file='/etc/rtal-webtoken/key-private.pem';
 $public_key_file='/etc/rtal-webtoken/key-public.pem';
 $private_key_size=512;
