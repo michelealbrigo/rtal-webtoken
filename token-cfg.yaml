@@ -7,4 +7,5 @@ ldaps: 1 # boolean, whether to use SSL or not (0|1)
 ldap_baseDN: '' # LDAP base DN for our bind attempt
 private_key: '/etc/rtal-webtoken/key-private.pem' # the private key used to generate tokens
 public_key: '/etc/rtal-webtoken/key-public.pem' # the public key to display on a token page
+private_key_size: 512 # private key size
 system_seed: 'MYTOKENSRV' # a string identifying this server, max 10 char
