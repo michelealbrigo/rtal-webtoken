@@ -217,8 +217,9 @@ if ($service == 'token_generation') {
     echo $public_key_file."<br>";
     $privkey = openssl_pkey_get_private(file_get_contents($private_key_file));
     $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
+    $token = "TOKEN";
     echo "<table>
-    <tr><td>".$pubkey."</td><td>TOKEN</td></tr>
+    <tr><td><pre>".openssl_pkey_get_details($pubkey)['key']."</pre></td><td>TOKEN:".$token."</td></tr>
     </table>
     ";
 
