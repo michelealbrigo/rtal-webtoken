@@ -88,7 +88,7 @@ echo "
 try {
   $cfg_array=yaml_parse_file($yaml_cfg_file,0,$yaml_cfg_docs);
 } catch (Exception $e) {
-  echo "Configuration file missing or not in YAML format, using defaults";
+  echo "<b>Warning:</b> Configuration file missing or not in YAML format, using defaults<br>";
 }
 
 // if private_key_file and public_key_file both exist, overwrite defaults
@@ -96,7 +96,7 @@ if (($cfg_array['private_key'] != '') && ($cfg_array['public_key'] != '')) {
   $private_key_file = $cfg_array['private_key'];
   $public_key_file = $cfg_array['public_key'];
 } else {
-  echo "Key-pair missing, using defaults";
+  echo "<b>Warning:</b> Key-pair missing, using defaults<br>";
 }
 
 // if system_seed exist and length is 10, overwrite defaults
@@ -104,7 +104,7 @@ if (($cfg_array['system_seed'] != '') &&
     (strlen($cfg_array['system_seed']==10))) {
   $system_seed = $cfg_array['system_seed'];
 } else {
-  echo "System seed missing or wrong length, using default (AAAAAAAAAA)";
+  echo "<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>";
 }
 
 // -------------
@@ -138,7 +138,7 @@ if (isset($_REQUEST['service'])) {
       $token = htmlspecialchars($_REQUEST['token']);
     }
   } elseif (($service != 'keypair_generation') && ($service != 'synopsis')) {
-    echo "Unrecognized service";
+    echo "<b>Warning:</b> Unrecognized service<br>";
   }
 } else {
   $service = 'synopsis';
@@ -203,7 +203,7 @@ if ($service == 'token_generation') {
       (filter_var($cfg_array['ldap_baseDN'] != ''))) {
 
       } else {
-        echo "Authentication server configuration invalid";
+        echo "<b>Warning:</b> Authentication server configuration invalid<br>";
       }
 
   // if user and password are empty, print login page
