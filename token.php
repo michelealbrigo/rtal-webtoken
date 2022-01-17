@@ -221,7 +221,7 @@ if ($service == 'token_generation') {
     $dectoken = base64_decode($enctoken);
     openssl_public_decrypt($dectoken, $final, $pubkey);
     echo "<table>
-    <tr><td><pre>".openssl_pkey_get_details($pubkey)['key']."</pre></td><td>TOKEN:".$enctoken."</td><td>Original:".base64_decode($final)."</td></tr>
+    <tr><td><pre>".openssl_pkey_get_details($pubkey)['key']."</pre></td><td>TOKEN:".$enctoken."</td><td>Original:".$final."</td></tr>
     </table>
     ";
 
