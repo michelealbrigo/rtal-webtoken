@@ -153,7 +153,7 @@ if (isset($_REQUEST['service'])) {
 
 if ($service == 'synopsis') {
   // we force https since we are in 21st century
-  $base_url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+  $base_url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
   // print synopsis
   echo "
   Valid services are:
