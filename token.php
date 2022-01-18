@@ -190,7 +190,7 @@ if ($reqservice == 'keypair_generation') {
   echo "
   <table>
   <tr>
-  <td><textarea cols='65' rows='10' readonly value='".$pubkey."'></td><td><textarea cols='65' rows='10' readonly value='".$privkey."'>'</td>
+  <td><textarea cols='65' rows='10' readonly value='".$pubkey."'></td><td><textarea cols='65' rows='10' readonly value='".$privkey."'></td>
   </tr>
   </table>";
 }
