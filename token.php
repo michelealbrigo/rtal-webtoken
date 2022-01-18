@@ -212,13 +212,15 @@ if ($reqservice == 'token_generation') {
 
   // -------- CAUTION --------
   // temporary dummy values
-  $requsername = 'username';
-  $reqpassword = 'password';
-  $reqopcode = 'OP202201';
+  // $requsername = 'username';
+  // $reqpassword = 'password';
+  // $reqopcode = 'OP202201';
   // -------- CAUTION --------
 
   // if we know username, password and opcode, we attempt authentication and generate a token, otherwise we present an authentication form
-  if (( $requsername != '' ) && ( $reqpassword != '' ) && ( $reqopcode != '' )) {
+  if (( isset($requsername) && ( $requsername != null ) ) &&
+      ( isset($reqpassword) && ( $reqpassword != null ) ) &&
+      ( isset($reqopcode) && ( $reqopcode != null ) )) {
     /*
     if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
       (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
@@ -242,7 +244,15 @@ if ($reqservice == 'token_generation') {
     ";
   } else {
     echo "
-    Authentication form goes here<br>
+    <form action='".$base_url."' method='get'>
+    <table>
+    <tr><td><label>Username:</label></td><td><input type='text' id='username' name='username' maxlength='20' size='20'></td></tr>
+    <tr><td><label>Password:</label></td><td><input type='text' id='password' name='password' maxlength='40' size='20'></td></tr>
+    <tr><td><label>Opcode:</label></td><td><input type='text' id='opcode' name='opcode' maxlength='10' minlength='10' size='20'></td></tr>
+    <tr><td>&nbsp;</td><td><input type='submit' value='Submit'></td></tr>
+    </table>
+    <input type='hidden' id='service' name='service' value='token_generation'>
+    </form>
     ";
   }
 
@@ -269,11 +279,6 @@ if ($reqservice == 'token_generation') {
  */
 
 if ( $reqservice == 'token_decryption' ) {
-  // -------- CAUTION --------
-  // temporary dummy value
-  // $reqtoken = 'ah9NNTOg7VymLn1K4bkgepy8ocBXgWXsi1pCSywVuZZthvWaBqgDvIWezHZZ62tdPitaoK8J5BvIaRQl/z6ttg==';
-  // -------- CAUTION --------
-
   if ( isset($reqtoken) && ( $reqtoken != null ) ) {
     $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
     openssl_public_decrypt(base64_decode($reqtoken), $dectoken, $pubkey);
@@ -294,18 +299,6 @@ if ( $reqservice == 'token_decryption' ) {
     </form>
     ";
   }
-  // if token is empty, print token input box
-  // else if token length is ok and characters are allowed
-  //    decrypt token with public key
-  //    print username
-  //    print opcode
-  //    print system_seed
-  //    print token creation timestamp
-  //    print human readable token creation timestamp
-  //    print token age
-  //    print cleartext token
-  //
-  //openssl_public_decrypt($dectoken, $final, $pubkey);
 }
 
 /**
