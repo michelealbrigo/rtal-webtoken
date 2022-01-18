@@ -27,57 +27,57 @@ $private_key_size=512;
 $system_seed='AAAAAAAAAA';
 $ldaps=1;
 $ldap_server_port='636';
-$base_url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+$base_url = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
 
 /**
   * Page header
  */
 
-echo "
+echo '
 <!DOCTYPE html>
-<!--[if IE 8]><html class=\"no-js ie89 ie8\" lang=\"it\"><![endif]-->
-<!--[if IE 9]><html class=\"no-js ie89 ie9\" lang=\"it\"><![endif]-->
+<!--[if IE 8]><html class="no-js ie89 ie8" lang="it"><![endif]-->
+<!--[if IE 9]><html class="no-js ie89 ie9\" lang="it"><![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
-<html class=\"no-js\" lang=\"it\">
+<html class="no-js" lang="it">
 <!--<![endif]-->
 
 <head>
-  <meta charset=\"utf-8\">
-  <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">
-  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- <link rel=\"preload\" href=\"./iwt/IWT.min.js\" as=\"script\"> -->
+  <!-- <link rel="preload" href="./iwt/IWT.min.js" as="script"> -->
 
   <!-- include HTML5shim per Explorer 8 -->
-  <script src=\"./iwt/vendor/modernizr.js\"></script>
+  <script src="./iwt/vendor/modernizr.js"></script>
 
-  <link media=\"all\" rel=\"stylesheet\" href=\"./iwt/build.css\">
+  <link media="all" rel="stylesheet" href="./iwt/build.css">
 
-  <script src=\"./iwt/vendor/jquery.min.js\"></script>
+  <script src="./iwt/vendor/jquery.min.js"></script>
 
   <title>Preview Layout</title>
 </head>
-";
+';
 
-echo "
-<body class=\"t-Pac\">
+echo '
+<body class="t-Pac">
 
   <!--[if IE 8]>
-  <script src=\"./iwt/vendor/respond.min.js\"></script>
-  <script src=\"./iwt/vendor/rem.min.js\"></script>
-  <script src=\"./iwt/vendor/selectivizr.js\"></script>
-  <script src=\"./iwt/vendor/slice.js\"></script>
+  <script src="./iwt/vendor/respond.min.js"></script>
+  <script src="./iwt/vendor/rem.min.js"></script>
+  <script src="./iwt/vendor/selectivizr.js"></script>
+  <script src="./iwt/vendor/slice.js"></script>
   <![endif]-->
 
   <!--[if lte IE 9]>
-  <script src=\"./iwt/vendor/polyfill.min.js\"></script>
+  <script src="./iwt/vendor/polyfill.min.js"></script>
   <![endif]-->
 
   
-  <script>__PUBLIC_PATH__ = './iwt/'</script>
+  <script>__PUBLIC_PATH__ = "./iwt/"</script>
 
-  <script src=\"./iwt/IWT.min.js\"></script>
-";
+  <script src="./iwt/IWT.min.js"></script>
+';
 
 /**
   * Parse configuration file
@@ -94,7 +94,7 @@ echo "
 try {
   $cfg_array=yaml_parse_file($yaml_cfg_file,0,$yaml_cfg_docs);
 } catch (Exception $e) {
-  echo "<b>Warning:</b> Configuration file missing or not in YAML format, using defaults<br>";
+  echo '<b>Warning:</b> Configuration file missing or not in YAML format, using defaults<br>';
 }
 
 // if private_key_file and public_key_file both exist, overwrite defaults
@@ -102,14 +102,14 @@ if (($cfg_array['private_key'] != '') && ($cfg_array['public_key'] != '')) {
   $private_key_file = $cfg_array['private_key'];
   $public_key_file = $cfg_array['public_key'];
 } else {
-  echo "<b>Warning:</b> Key-pair missing, using defaults<br>";
+  echo '<b>Warning:</b> Key-pair missing, using defaults<br>';
 }
 
 // if private_key_size exists overwrite default
 if ($cfg_array['private_key_size'] != '') {
   $private_key_size = (int)$cfg_array['private_key_size'];
 } else {
-  echo "<b>Warning:</b> Key size missing, using default<br>";
+  echo '<b>Warning:</b> Key size missing, using default<br>';
 }
 
 // if system_seed exist and length is 10, overwrite defaults
@@ -117,7 +117,7 @@ if (($cfg_array['system_seed'] != '') &&
     (strlen($cfg_array['system_seed'])==10)) {
   $system_seed = $cfg_array['system_seed'];
 } else {
-  echo "<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>";
+  echo '<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>';
 }
 
 /**
@@ -148,7 +148,7 @@ if (($cfg_array['system_seed'] != '') &&
       $reqtoken = htmlspecialchars($_REQUEST['token']);
     }
   } elseif (($reqservice != 'keypair_generation') && ($reqservice != 'synopsis')) {
-    echo "<b>Warning:</b> Unrecognized service<br>";
+    echo '<b>Warning:</b> Unrecognized service<br>';
   }
 } else {
   $reqservice = 'synopsis';
@@ -162,15 +162,15 @@ if (($cfg_array['system_seed'] != '') &&
  */
 
 if ($reqservice == 'synopsis') {
-  echo "
+  echo '
   Valid services are:
   <ul>
-  <li><a href='".$base_url."?service=synopsis'><b>synopsis</b></a> = print this help (default service)</li>
-  <li><a href='".$base_url."?service=keypair_generation'><b>keypair_generation</b></a> = generates a valid keypair for token operations, no authentication required</li>
-  <li><a href='".$base_url."?service=token_generation'><b>token_generation</b></a> = generates a token, authentication required</li>
-  <li><a href='".$base_url."?service=token_decryption'><b>token_decryption</b></a> = decrypts a token with server's current public key, no authentication required, foreign key decryption not supported</li>
+  <li><a href="'.$base_url.'?service=synopsis"><b>synopsis</b></a> = print this help (default service)</li>
+  <li><a href="'.$base_url.'?service=keypair_generation"><b>keypair_generation</b></a> = generates a valid keypair for token operations, no authentication required</li>
+  <li><a href="'.$base_url.'?service=token_generation"><b>token_generation</b></a> = generates a token, authentication required</li>
+  <li><a href="'.$base_url.'?service=token_decryption"><b>token_decryption</b></a> = decrypts a token with server\'s current public key, no authentication required, foreign key decryption not supported</li>
   </ul>
-  ";
+  ';
 }
 
 /**
@@ -183,16 +183,17 @@ if ($reqservice == 'synopsis') {
 
 if ($reqservice == 'keypair_generation') {
   // generate key pair
-  $fullkey = openssl_pkey_new(array("private_key_bits" => $private_key_size));
+  $fullkey = openssl_pkey_new(array('private_key_bits' => $private_key_size));
   $pubkey = openssl_pkey_get_details($fullkey)['key'];
   openssl_pkey_export($fullkey, $privkey);
   // print key pair for user consumption
-  echo "
+  echo '
   <table>
   <tr>
-  <td><textarea cols='65' rows='10' readonly value='".$pubkey."'></td><td><textarea cols='65' rows='10' readonly value='".$privkey."'></td>
+  <td><textarea cols="65" rows="10" readonly value="'.$pubkey.'"></td>
+  <td><textarea cols="65" rows="10" readonly value="'.$privkey.'"></td>
   </tr>
-  </table>";
+  </table>';
 }
 
 /**
@@ -226,24 +227,24 @@ if ($reqservice == 'token_generation') {
     $original = $system_seed.":".$reqopcode.":".$requsername.":".$timestamp;
     openssl_private_encrypt($original, $bintoken, $privkey);
     $enctoken = base64_encode($bintoken);
-    echo "<table>
-    <tr><td>TOKEN:".$enctoken."</td></tr>
-    <tr><td>Original:".$original."</td></tr>
+    echo '<table>
+    <tr><td>TOKEN:'.$enctoken.'</td></tr>
+    <tr><td>Original:'.$original.'</td></tr>
     </table>
-    ";
+    ';
   } else {
-    echo "
-    <form action='".$base_url."' method='post'>
+    echo '
+    <form action="'.$base_url.'" method="post">
     <table>
-    <tr><td colspan='2'>All values required, Opcode must be 10 characters</td></tr>
-    <tr><td><label>Username:</label></td><td><input type='text' id='username' name='username' maxlength='20' size='20'></td></tr>
-    <tr><td><label>Password:</label></td><td><input type='password' id='password' name='password' maxlength='40' size='20'></td></tr>
-    <tr><td><label>Opcode:</label></td><td><input type='text' id='opcode' name='opcode' maxlength='10' minlength='10' size='20'></td></tr>
-    <tr><td>&nbsp;</td><td><input type='submit' value='Submit'></td></tr>
+    <tr><td colspan="2">All values required, Opcode must be 10 characters</td></tr>
+    <tr><td><label>Username:</label></td><td><input type="text" id="username" name="username" maxlength="20" size="20"></td></tr>
+    <tr><td><label>Password:</label></td><td><input type="password" id="password" name="password" maxlength="40" size="20"></td></tr>
+    <tr><td><label>Opcode:</label></td><td><input type="text" id="opcode" name="opcode" maxlength="10" minlength="10" size="20"></td></tr>
+    <tr><td>&nbsp;</td><td><input type="submit" value="Submit"></td></tr>
     </table>
-    <input type='hidden' id='service' name='service' value='token_generation'>
+    <input type="hidden" id="service" name="service" value="token_generation">
     </form>
-    ";
+    ';
   }
 }
 
@@ -259,22 +260,22 @@ if ( $reqservice == 'token_decryption' ) {
   if ( isset($reqtoken) && ( $reqtoken != null ) ) {
     $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
     openssl_public_decrypt(base64_decode($reqtoken), $dectoken, $pubkey);
-    echo "
+    echo '
     <table>
-    <tr><td>Encrypted:".$reqtoken."</td></tr>
-    <tr><td>Decrypted:".$dectoken."</td></tr>
+    <tr><td>Encrypted:'.$reqtoken.'</td></tr>
+    <tr><td>Decrypted:'.$dectoken.'</td></tr>
     </table>
-    ";
+    ';
   } else {
-    echo "
-    <form action='".$base_url."' method='get'>
+    echo '
+    <form action="'.$base_url.'" method="get">
     <table>
-    <tr><td><label>Enter token to decode:</label></td><td><input type='text' id='token' name='token' maxlength='512' size='90'></td></tr>
-    <tr><td>&nbsp;</td><td><input type='submit' value='Submit'></td></tr>
+    <tr><td><label>Enter token to decode:</label></td><td><input type="text" id="token" name="token" maxlength="512" size="90"></td></tr>
+    <tr><td>&nbsp;</td><td><input type="submit" value="Submit"></td></tr>
     </table>
-    <input type='hidden' id='service' name='service' value='token_decryption'>
+    <input type="hidden" id="service" name="service" value="token_decryption">
     </form>
-    ";
+    ';
   }
 }
 
@@ -282,9 +283,9 @@ if ( $reqservice == 'token_decryption' ) {
   * Page footer
  */
 
-echo "
+echo '
 </body>
 </html>
-";
+';
 
 ?>
