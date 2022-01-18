@@ -192,7 +192,7 @@ if ($reqservice == 'keypair_generation') {
   <form>
   <tr><td colspan='2'>Copy these from page source if you intend to use them</td></tr>
   <tr>
-  <td><input type='text' readonly value='".$pubkey."'></td><td><input type='text' readonly value='".$privkey."'>'</td>
+  <td><input type='textarea' cols='65' rows='10' readonly value='".$pubkey."'></td><td><input type='textarea' cols='65' rows='10' readonly value='".$privkey."'>'</td>
   </tr>
   </form>
   </table>";
