@@ -190,7 +190,6 @@ if ($reqservice == 'keypair_generation') {
   echo "
   <table>
   <form>
-  <tr><td colspan='2'>Copy these from page source if you intend to use them</td></tr>
   <tr>
   <td><input type='textarea' cols='65' rows='10' readonly value='".$pubkey."'></td><td><input type='textarea' cols='65' rows='10' readonly value='".$privkey."'>'</td>
   </tr>
