@@ -127,10 +127,11 @@ if (($cfg_array['system_seed'] != '') &&
   * opcode: an operation code provided by the user, for inclusion in the encrypted token
   * username: the user's name on the LDAP server
   * password: the user's password on the LDAP server
+  *
+  * Check if request parameters are valid and assign them to work variables
  */
 
-// Check if request parameters are valid and assign them to work variables
-if (isset($_REQUEST['service'])) {
+ if (isset($_REQUEST['service'])) {
   $reqservice = htmlspecialchars($_REQUEST['service']);
   if ($reqservice == 'token_generation') {
     // Some additional controls for token_generation service
@@ -161,7 +162,6 @@ if (isset($_REQUEST['service'])) {
  */
 
 if ($reqservice == 'synopsis') {
-  // print synopsis
   echo "
   Valid services are:
   <ul>
@@ -189,10 +189,12 @@ if ($reqservice == 'keypair_generation') {
   // print key pair for user consumption
   echo "
   <table>
+  <form>
   <tr><td colspan='2'>Copy these from page source if you intend to use them</td></tr>
   <tr>
-  <td><pre>".$pubkey."</pre></td><td><pre>".$privkey."</pre></td>
+  <td><input type='text' readonly value='".$pubkey."'></td><td><input type='text' readonly value='".$privkey."'>'</td>
   </tr>
+  </form>
   </table>";
 }
 
@@ -236,6 +238,7 @@ if ($reqservice == 'token_generation') {
     echo "
     <form action='".$base_url."' method='post'>
     <table>
+    <tr><td colspan='2'>All values required, Opcode must be 10 characters</td></tr>
     <tr><td><label>Username:</label></td><td><input type='text' id='username' name='username' maxlength='20' size='20'></td></tr>
     <tr><td><label>Password:</label></td><td><input type='password' id='password' name='password' maxlength='40' size='20'></td></tr>
     <tr><td><label>Opcode:</label></td><td><input type='text' id='opcode' name='opcode' maxlength='10' minlength='10' size='20'></td></tr>
