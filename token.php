@@ -189,11 +189,9 @@ if ($reqservice == 'keypair_generation') {
   // print key pair for user consumption
   echo "
   <table>
-  <form>
   <tr>
-  <td><input type='textarea' cols='65' rows='10' readonly value='".$pubkey."'></td><td><input type='textarea' cols='65' rows='10' readonly value='".$privkey."'>'</td>
+  <td><textarea cols='65' rows='10' readonly value='".$pubkey."'></td><td><textarea cols='65' rows='10' readonly value='".$privkey."'>'</td>
   </tr>
-  </form>
   </table>";
 }
 
