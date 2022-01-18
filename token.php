@@ -265,7 +265,7 @@ if ($reqservice == 'token_generation') {
 if ( $reqservice == 'token_decryption' ) {
   // -------- CAUTION --------
   // temporary dummy value
-  $reqtoken = 'ah9NNTOg7VymLn1K4bkgepy8ocBXgWXsi1pCSywVuZZthvWaBqgDvIWezHZZ62tdPitaoK8J5BvIaRQl/z6ttg==';
+  // $reqtoken = 'ah9NNTOg7VymLn1K4bkgepy8ocBXgWXsi1pCSywVuZZthvWaBqgDvIWezHZZ62tdPitaoK8J5BvIaRQl/z6ttg==';
   // -------- CAUTION --------
 
   if ( $reqtoken != '' ) {
@@ -278,7 +278,14 @@ if ( $reqservice == 'token_decryption' ) {
     </table>
     ";
   } else {
-    // if token is empty, print token input box
+    echo "
+    <form action='".$base_url."?service=token_decryption' method='get'>
+    <table>
+    <tr><td><label>Enter token to decode:</label></td><td><input type='text' id='token' name='token' maxlength='512' size='90'></td></tr>
+    <tr><td>&nbsp;</td><td> <input type='submit' value='Submit'></td></tr>
+    </table>
+    </form>
+    ";
   }
   // if token is empty, print token input box
   // else if token length is ok and characters are allowed
