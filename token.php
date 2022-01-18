@@ -26,6 +26,14 @@ $ldaps=1;
 $ldap_server_port='636';
 
 /**
+ * Initializations
+ */
+
+// we only use https since we are in 21st century
+$base_url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+
+
+/**
   * Page header
  */
 
@@ -157,8 +165,6 @@ if (isset($_REQUEST['service'])) {
  */
 
 if ($reqservice == 'synopsis') {
-  // we only use https since we are in 21st century
-  $base_url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
   // print synopsis
   echo "
   Valid services are:
@@ -268,7 +274,7 @@ if ( $reqservice == 'token_decryption' ) {
   // $reqtoken = 'ah9NNTOg7VymLn1K4bkgepy8ocBXgWXsi1pCSywVuZZthvWaBqgDvIWezHZZ62tdPitaoK8J5BvIaRQl/z6ttg==';
   // -------- CAUTION --------
 
-  if ( $reqtoken != '' ) {
+  if ( isset($reqtoken) && ( $reqtoken != null ) ) {
     $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
     openssl_public_decrypt(base64_decode($reqtoken), $dectoken, $pubkey);
     echo "
