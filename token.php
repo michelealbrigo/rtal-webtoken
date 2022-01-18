@@ -285,11 +285,12 @@ if ( $reqservice == 'token_decryption' ) {
     ";
   } else {
     echo "
-    <form action='".$base_url."?service=token_decryption' method='get'>
+    <form action='".$base_url."' method='get'>
     <table>
     <tr><td><label>Enter token to decode:</label></td><td><input type='text' id='token' name='token' maxlength='512' size='90'></td></tr>
-    <tr><td>&nbsp;</td><td> <input type='submit' value='Submit'></td></tr>
+    <tr><td>&nbsp;</td><td><input type='submit' value='Submit'></td></tr>
     </table>
+    <input type='hidden' id='service' name='service' value='token_decryption'>
     </form>
     ";
   }
