@@ -2,10 +2,13 @@
 /**
   * PHP authenticated token generator
   * Michele Albrigo - 2021
+  * v0.3 - initial fully working implementation
   * v0.2 - config file and request parameters parsing
   * v0.1 - module import
   * v0.0 - initial structure
  */
+
+$yaml_cfg_file='/etc/rtal-webtoken/token-cfg.yaml';
 
 // enable error reporting
 ini_set('display_errors', 1);
@@ -13,10 +16,10 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 /**
-  * Defaults setting
+  * Defaults and initialization
   * Key Size = 512 to get short tokens
+  * $base_url: we only use https since we are in 21st century
  */
-$yaml_cfg_file='/etc/rtal-webtoken/token-cfg.yaml';
 $yaml_cfg_docs=1;
 $private_key_file='/etc/rtal-webtoken/key-private.pem';
 $public_key_file='/etc/rtal-webtoken/key-public.pem';
@@ -24,14 +27,7 @@ $private_key_size=512;
 $system_seed='AAAAAAAAAA';
 $ldaps=1;
 $ldap_server_port='636';
-
-/**
- * Initializations
- */
-
-// we only use https since we are in 21st century
 $base_url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
-
 
 /**
   * Page header
@@ -218,6 +214,8 @@ if ($reqservice == 'token_generation') {
       (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
       (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
       (filter_var($cfg_array['ldap_baseDN'] != ''))) {
+          //$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
+  //$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
 
       } else {
         echo "<b>Warning:</b> Authentication server configuration invalid<br>";
@@ -247,19 +245,6 @@ if ($reqservice == 'token_generation') {
     </form>
     ";
   }
-
-  //$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
-  //$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
-  //      create token string
-  //      if opcode is empty pad string with zeroes
-  //      encrypt token string with private_key
-  //      display encrypted token
-  //      display public_key
-  //    if ldap bind fails
-  //      display error
-  // else
-  //      display error
-
 }
 
 /**
