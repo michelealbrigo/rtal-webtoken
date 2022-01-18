@@ -236,7 +236,7 @@ if ($reqservice == 'token_generation') {
     ";
   } else {
     echo "
-    <form action='".$base_url."' method='get'>
+    <form action='".$base_url."' method='post'>
     <table>
     <tr><td><label>Username:</label></td><td><input type='text' id='username' name='username' maxlength='20' size='20'></td></tr>
     <tr><td><label>Password:</label></td><td><input type='password' id='password' name='password' maxlength='40' size='20'></td></tr>
