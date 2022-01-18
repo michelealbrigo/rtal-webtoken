@@ -209,14 +209,6 @@ if ($reqservice == 'keypair_generation') {
  */
 
 if ($reqservice == 'token_generation') {
-
-  // -------- CAUTION --------
-  // temporary dummy values
-  // $requsername = 'username';
-  // $reqpassword = 'password';
-  // $reqopcode = 'OP202201';
-  // -------- CAUTION --------
-
   // if we know username, password and opcode, we attempt authentication and generate a token, otherwise we present an authentication form
   if (( isset($requsername) && ( $requsername != null ) ) &&
       ( isset($reqpassword) && ( $reqpassword != null ) ) &&
@@ -247,7 +239,7 @@ if ($reqservice == 'token_generation') {
     <form action='".$base_url."' method='get'>
     <table>
     <tr><td><label>Username:</label></td><td><input type='text' id='username' name='username' maxlength='20' size='20'></td></tr>
-    <tr><td><label>Password:</label></td><td><input type='text' id='password' name='password' maxlength='40' size='20'></td></tr>
+    <tr><td><label>Password:</label></td><td><input type='password' id='password' name='password' maxlength='40' size='20'></td></tr>
     <tr><td><label>Opcode:</label></td><td><input type='text' id='opcode' name='opcode' maxlength='10' minlength='10' size='20'></td></tr>
     <tr><td>&nbsp;</td><td><input type='submit' value='Submit'></td></tr>
     </table>
