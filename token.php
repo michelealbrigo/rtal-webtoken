@@ -209,18 +209,28 @@ if ($reqservice == 'token_generation') {
   if (( isset($requsername) && ( $requsername != null ) ) &&
       ( isset($reqpassword) && ( $reqpassword != null ) ) &&
       ( isset($reqopcode) && ( $reqopcode != null ) )) {
-    /*
-    if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
-      (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
-      (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
-      (filter_var($cfg_array['ldap_baseDN'] != ''))) {
-          //$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
-  //$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
 
+    // case switch on cfg file auth_method
+    // case ldap
+      // for each base DN
+        // try auth
+            /*
+              if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
+                (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
+                (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
+                (filter_var($cfg_array['ldap_baseDN'] != ''))) {
+                //$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
+                //$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
       } else {
         echo "<b>Warning:</b> Authentication server configuration invalid<br>";
       }
     */
+
+        // break if success
+    // case sso
+    // case noauth
+      // accept any user/password combination
+    // if user authenticated generate and display token
     $privkey = openssl_pkey_get_private(file_get_contents($private_key_file));
     $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
     $timestamp = date_timestamp_get(date_create());
@@ -232,6 +242,7 @@ if ($reqservice == 'token_generation') {
     <tr><td>Original:'.$original.'</td></tr>
     </table>
     ';
+    // else print error and links to generate_token and synopsis
   } else {
     echo '
     <form action="'.$base_url.'" method="post">
