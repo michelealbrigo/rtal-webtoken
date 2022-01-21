@@ -238,7 +238,7 @@ if ($reqservice == 'token_generation') {
             $user_authenticated = 1;
             break;
           case 'ldap':
-            $ldapconn=ldap_connect('ldaps://'.$ldap_server,$ldap_serverport);
+            $ldapconn=ldap_connect('ldaps://'.$cfg_array['ldap_server'],$cfg_array['ldap_serverport']);
             foreach ($cfg_array['ldap_baseDN'] as $basedn) {
               try {
                 $ldapbind=ldap_bind($ldapconn, 'uid='.$requsername.','.$basedn, $reqpassword);
