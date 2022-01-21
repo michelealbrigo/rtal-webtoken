@@ -243,6 +243,7 @@ if ($reqservice == 'token_generation') {
               // we might have multiple baseDNs to check the user against
               if (@ldap_bind($ldapconn, 'uid='.$requsername.','.$basedn, $reqpassword)) {
                 $user_authenticated = 1;
+                break;
               } else {
                 $user_authenticated = 0;
               }
