@@ -308,7 +308,7 @@ if ( $reqservice == 'token_decryption' ) {
     <tr><td><b>Decrypted:</b></td><td>'.$dectoken.'</td></tr>
     <tr><td><b>Server ID:</b></td><td>'.substr($dectoken,0,10).'</td></tr>
     <tr><td><b>Opcode:</b></td><td>'.substr($dectoken,11,10).'</td></tr>
-    <tr><td><b>Timestamp:</b></td><td>'.substr($dectoken,22,10).'</td></tr>
+    <tr><td><b>Timestamp:</b></td><td>'.substr($dectoken,22,10).' - Human readable form: '.date('Y-m-d H:i:s', substr($dectoken,22,10)).'</td></tr>
     <tr><td><b>Username:</b></td><td>'.substr($dectoken,33).'</td></tr>
     </table>
     ';
