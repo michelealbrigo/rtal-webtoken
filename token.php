@@ -27,6 +27,7 @@ $private_key_size=512;
 $system_seed='AAAAAAAAAA';
 $auth_method='noauth';
 $user_authenticated=0;
+$base_url = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
 
 /**
   * Page header
