@@ -130,7 +130,7 @@ if (($cfg_array['auth_method'] == 'noauth') || ($cfg_array['auth_method'] == 'ld
         (filter_var($cfg_array['ldap_baseDN'] != ''))) {
           // do nothing
         } else {
-          $auth_method = 'noauth'
+          $auth_method = 'noauth';
           echo '<b>Warning:</b>Invalid LDAP server configuration, falling back to <i>noauth</i>';
         }
   }
