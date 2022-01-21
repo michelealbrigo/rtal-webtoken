@@ -183,12 +183,12 @@ if (($cfg_array['auth_method'] == 'noauth') || ($cfg_array['auth_method'] == 'ld
 if ($reqservice == 'synopsis') {
   echo '
   Valid services are:
-  <ul>
-  <li><a href="'.$base_url.'?service=synopsis"><b>synopsis</b></a> = print this help (default service)</li>
-  <li><a href="'.$base_url.'?service=keypair_generation"><b>keypair_generation</b></a> = generates a valid keypair for token operations, no authentication required</li>
-  <li><a href="'.$base_url.'?service=token_generation"><b>token_generation</b></a> = generates a token, authentication required</li>
-  <li><a href="'.$base_url.'?service=token_decryption"><b>token_decryption</b></a> = decrypts a token with server\'s current public key, no authentication required, foreign key decryption not supported</li>
-  </ul>
+  <ul>\n
+  <li><a href="'.$base_url.'?service=synopsis"><b>synopsis</b></a> = print this help (default service)</li>\n
+  <li><a href="'.$base_url.'?service=keypair_generation"><b>keypair_generation</b></a> = generates a valid keypair for token operations, no authentication required</li>\n
+  <li><a href="'.$base_url.'?service=token_generation"><b>token_generation</b></a> = generates a token, authentication required</li>\n
+  <li><a href="'.$base_url.'?service=token_decryption"><b>token_decryption</b></a> = decrypts a token with server\'s current public key, no authentication required, foreign key decryption not supported</li>\n
+  </ul>\n
   ';
 }
 
@@ -207,12 +207,12 @@ if ($reqservice == 'keypair_generation') {
   openssl_pkey_export($fullkey, $privkey);
   // print key pair for user consumption
   echo '
-  <table>
-  <tr>
-  <td><textarea cols="80" rows="10" readonly>'.$pubkey.'</textarea></td>
-  <td><textarea cols="80" rows="10" readonly>'.$privkey.'</textarea></td>
-  </tr>
-  </table>';
+  <table>\n
+  <tr>\n
+  <td><textarea cols="80" rows="10" readonly>'.$pubkey.'</textarea></td>\n
+  <td><textarea cols="80" rows="10" readonly>'.$privkey.'</textarea></td>\n
+  </tr>\n
+  </table>\n';
 }
 
 /**
@@ -259,13 +259,13 @@ if ($reqservice == 'token_generation') {
           $privkey = openssl_pkey_get_private(file_get_contents($private_key_file));
           $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
           $timestamp = date_timestamp_get(date_create());
-          $original = $system_seed.":".$reqopcode.":".$requsername.":".$timestamp;
+          $original = $system_seed.":".$reqopcode.":".$timestamp.":".$requsername;
           openssl_private_encrypt($original, $bintoken, $privkey);
           $enctoken = base64_encode($bintoken);
-          echo '<table>
-          <tr><td>TOKEN:'.$enctoken.'</td></tr>
-          <tr><td>Original:'.$original.'</td></tr>
-          </table>
+          echo '<table>\n
+          <tr><td>TOKEN:'.$enctoken.'</td></tr>\n
+          <tr><td>Original:'.$original.'</td></tr>\n
+          </table>\n
           ';
         } else {
           // else display error message and url to retry
@@ -276,16 +276,16 @@ if ($reqservice == 'token_generation') {
   } else {
     // if we do not know username, password and opcode, we print an authentication form
     echo '
-    <form action="'.$base_url.'" method="post">
-    <table>
-    <tr><td colspan="2">All values required, Opcode must be 10 characters</td></tr>
-    <tr><td><label>Username:</label></td><td><input type="text" id="username" name="username" maxlength="20" size="20"></td></tr>
-    <tr><td><label>Password:</label></td><td><input type="password" id="password" name="password" maxlength="40" size="20"></td></tr>
-    <tr><td><label>Opcode:</label></td><td><input type="text" id="opcode" name="opcode" maxlength="10" minlength="10" size="20"></td></tr>
-    <tr><td>&nbsp;</td><td><input type="submit" value="Submit"></td></tr>
-    </table>
-    <input type="hidden" id="service" name="service" value="token_generation">
-    </form>
+    <form action="'.$base_url.'" method="post">\n
+    <table>\n
+    <tr><td colspan="2">All values required, Opcode must be 10 characters</td></tr>\n
+    <tr><td><label>Username:</label></td><td><input type="text" id="username" name="username" maxlength="20" size="20"></td></tr>\n
+    <tr><td><label>Password:</label></td><td><input type="password" id="password" name="password" maxlength="40" size="20"></td></tr>\n
+    <tr><td><label>Opcode:</label></td><td><input type="text" id="opcode" name="opcode" maxlength="10" minlength="10" size="20"></td></tr>\n
+    <tr><td>&nbsp;</td><td><input type="submit" value="Submit"></td></tr>\n
+    </table>\n
+    <input type="hidden" id="service" name="service" value="token_generation">\n
+    </form>\n
     ';
   }
 }
@@ -303,20 +303,25 @@ if ( $reqservice == 'token_decryption' ) {
     $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
     openssl_public_decrypt(base64_decode($reqtoken), $dectoken, $pubkey);
     echo '
-    <table>
-    <tr><td>Encrypted:'.$reqtoken.'</td></tr>
-    <tr><td>Decrypted:'.$dectoken.'</td></tr>
-    </table>
+    <table>\n
+    <tr><td><b>Encrypted:</b></td><td>'.$reqtoken.'</td></tr>\n
+    <tr><td><b>Decrypted:</b></td><td>'.$dectoken.'</td></tr>\n
+    <tr><td><b>Server ID:</b></td><td>'.substr($dectoken,0,10).'</td></tr>\n
+    <tr><td><b>Opcode:</b></td><td>'.substr($dectoken,10,10).'</td></tr>\n
+    <tr><td><b>Timestamp:</b></td>'.substr($dectoken,22,10).'<td></td></tr>\n
+    <tr><td><b>Username:</b></td>'.substr($dectoken,33).'<td></td></tr>\n
+
+    </table>\n
     ';
   } else {
     echo '
-    <form action="'.$base_url.'" method="get">
-    <table>
-    <tr><td><label>Enter token to decode:</label></td><td><input type="text" id="token" name="token" maxlength="512" size="90"></td></tr>
-    <tr><td>&nbsp;</td><td><input type="submit" value="Submit"></td></tr>
-    </table>
-    <input type="hidden" id="service" name="service" value="token_decryption">
-    </form>
+    <form action="'.$base_url.'" method="get">\n
+    <table>\n
+    <tr><td><label>Enter token to decode:</label></td><td><input type="text" id="token" name="token" maxlength="512" size="90"></td></tr>\n
+    <tr><td>&nbsp;</td><td><input type="submit" value="Submit"></td></tr>\n
+    </table>\n
+    <input type="hidden" id="service" name="service" value="token_decryption">\n
+    </form>\n
     ';
   }
 }
