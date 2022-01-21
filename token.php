@@ -25,9 +25,8 @@ $private_key_file='/etc/rtal-webtoken/key-private.pem';
 $public_key_file='/etc/rtal-webtoken/key-public.pem';
 $private_key_size=512;
 $system_seed='AAAAAAAAAA';
-$ldaps=1;
-$ldap_server_port='636';
-$base_url = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+$auth_method='noauth';
+$user_authenticated=0;
 
 /**
   * Page header
@@ -120,6 +119,25 @@ if (($cfg_array['system_seed'] != '') &&
   echo '<b>Warning:</b> System seed missing or wrong length, using default (AAAAAAAAAA)<br>';
 }
 
+// if auth_method is one of the allowed values, overwrite default (noauth, authentication bypass)
+if (($cfg_array['auth_method'] == 'noauth') || ($cfg_array['auth_method'] == 'ldap') || ($cfg_array['auth_method'] == 'sso')) {
+  $auth_method = $cfg_array['auth_method'];
+  // if auth_method is ldap, we validate server configuration
+  if ($auth_method == 'ldap') {
+    if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
+        (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
+        (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
+        (filter_var($cfg_array['ldap_baseDN'] != ''))) {
+          // do nothing
+        } else {
+          $auth_method = 'noauth'
+          echo '<b>Warning:</b>Invalid LDAP server configuration, falling back to <i>noauth</i>';
+        }
+  }
+} else {
+  echo '<b>Warning:</b> Invalid auth method<br>';
+}
+
 /**
   * Read request parameters
   * service: page function selection (default = synopsis)
@@ -205,45 +223,48 @@ if ($reqservice == 'keypair_generation') {
  */
 
 if ($reqservice == 'token_generation') {
-  // if we know username, password and opcode, we attempt authentication and generate a token, otherwise we present an authentication form
+  
   if (( isset($requsername) && ( $requsername != null ) ) &&
       ( isset($reqpassword) && ( $reqpassword != null ) ) &&
       ( isset($reqopcode) && ( $reqopcode != null ) )) {
-
-    // case switch on cfg file auth_method
-    // case ldap
-      // for each base DN
-        // try auth
-            /*
-              if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
-                (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
-                (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
-                (filter_var($cfg_array['ldap_baseDN'] != ''))) {
-                //$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
-                //$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
-      } else {
-        echo "<b>Warning:</b> Authentication server configuration invalid<br>";
-      }
-    */
-
-        // break if success
-    // case sso
-    // case noauth
-      // accept any user/password combination
-    // if user authenticated generate and display token
-    $privkey = openssl_pkey_get_private(file_get_contents($private_key_file));
-    $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
-    $timestamp = date_timestamp_get(date_create());
-    $original = $system_seed.":".$reqopcode.":".$requsername.":".$timestamp;
-    openssl_private_encrypt($original, $bintoken, $privkey);
-    $enctoken = base64_encode($bintoken);
-    echo '<table>
-    <tr><td>TOKEN:'.$enctoken.'</td></tr>
-    <tr><td>Original:'.$original.'</td></tr>
-    </table>
-    ';
-    // else print error and links to generate_token and synopsis
+        // if we know username, password and opcode, we attempt authentication and generate a token
+        switch ($auth_method):
+          case 'noauth':
+            $user_authenticated = 1;
+            break;
+          case 'sso':
+            // we temporarily consider sso as noauth
+            $user_authenticated = 1;
+            break;
+          case 'ldap':
+            //$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
+            //$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
+            break;
+          default:
+            echo '<b>Warning:</b> Unrecognized service<br>';
+            $user_authenticated = 0;
+        endswitch;
+        if ($user_authenticated == 1) {
+          // if user authenticated generate and display token
+          $privkey = openssl_pkey_get_private(file_get_contents($private_key_file));
+          $pubkey = openssl_pkey_get_public(file_get_contents($public_key_file));
+          $timestamp = date_timestamp_get(date_create());
+          $original = $system_seed.":".$reqopcode.":".$requsername.":".$timestamp;
+          openssl_private_encrypt($original, $bintoken, $privkey);
+          $enctoken = base64_encode($bintoken);
+          echo '<table>
+          <tr><td>TOKEN:'.$enctoken.'</td></tr>
+          <tr><td>Original:'.$original.'</td></tr>
+          </table>
+          ';
+        } else {
+          // else display error message and url to retry
+          echo '
+          <b>Warning:</b> Authentication failed, <a href="'.$base_url.'?service=token_generation">Try again</a>
+          ';
+        }
   } else {
+    // if we do not know username, password and opcode, we print an authentication form
     echo '
     <form action="'.$base_url.'" method="post">
     <table>
