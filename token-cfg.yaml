@@ -5,8 +5,8 @@ private_key: '/etc/rtal-webtoken/key-private.pem' # the private key used to gene
 public_key: '/etc/rtal-webtoken/key-public.pem' # the public key to display on a token page
 private_key_size: 512 # private key size
 system_seed: 'MYTOKENSRV' # a string identifying this server, max 10 char
-auth_method: 'ldap'
+auth_method: 'noauth' # allowed values: ldap, sso, noauth
 ldap_server: 'server.domain.tld' # ip or fqdn of an LDAP server
 ldap_serverport: '636' # a valid port number for the ldap_server to be contacted on (integer)
 ldaps: 1 # boolean, whether to use SSL or not (0|1)
-ldap_baseDN: '' # LDAP base DN for our bind attempt
+ldap_baseDN: ['baseDN'] # LDAP base DNs for our bind attempts
