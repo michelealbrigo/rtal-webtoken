@@ -128,7 +128,7 @@ if (($cfg_array['auth_method'] == 'noauth') || ($cfg_array['auth_method'] == 'ld
     if ((filter_var($cfg_array['ldap_server'],FILTER_VALIDATE_DOMAIN)) &&
         (filter_var($cfg_array['ldap_serverport'],FILTER_VALIDATE_INT)) &&
         (($cfg_array['ldaps'] == 0) || ($cfg_array['ldaps'] == 1)) &&
-        (filter_var($cfg_array['ldap_baseDN'] != ''))) {
+        (filter_var($cfg_array['ldap_baseDN'][0] != ''))) {
           // do nothing
         } else {
           $auth_method = 'noauth';
@@ -238,11 +238,20 @@ if ($reqservice == 'token_generation') {
             $user_authenticated = 1;
             break;
           case 'ldap':
-            //$ldapconn=ldap_connect('ldaps://server.domain.tld',636);
-            //$ldapbind=ldap_bind($ldapconn, 'uid=username,cn=CN,dc=domain,dc=country', $ldappassword);
+            $ldapconn=ldap_connect('ldaps://'.$ldap_server,$ldap_serverport);
+            foreach ($cfg_array['ldap_baseDN'] as $basedn) {
+              try {
+                $ldapbind=ldap_bind($ldapconn, 'uid='.$requsername.','.$basedn, $reqpassword);
+                $user_authenticated = 1;
+                break;
+              } catch (Exception $ldaperr) {
+                $user_authenticated = 0;
+              }
+            }
+            //
             break;
           default:
-            echo '<b>Warning:</b> Unrecognized service<br>';
+            echo '<b>Warning:</b> Unrecognized auth service<br>';
             $user_authenticated = 0;
         endswitch;
         if ($user_authenticated == 1) {
