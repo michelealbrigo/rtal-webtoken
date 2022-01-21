@@ -263,8 +263,8 @@ if ($reqservice == 'token_generation') {
           openssl_private_encrypt($original, $bintoken, $privkey);
           $enctoken = base64_encode($bintoken);
           echo '<table>
-          <tr><td>TOKEN:'.$enctoken.'</td></tr>
-          <tr><td>Original:'.$original.'</td></tr>
+          <tr><td><b>TOKEN:</b></td><td>'.$enctoken.'</td></tr>
+          <tr><td><b>Original:</b></td><td>'.$original.'</td></tr>
           </table>
           ';
         } else {
